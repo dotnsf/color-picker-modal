@@ -1,0 +1,91 @@
+<%- include('./head', {}) %>
+
+<style type="text/css">
+html, body{
+  text-align: center;
+  background-color: #fafafa;
+  font-size: 20px;
+  color: #333;
+}
+</style>
+
+<script type="text/javascript">
+function changeColor( c ){
+  $('#selected-color').css( 'color', c );
+  $('#color_select').css( 'color', c );
+}
+
+function openColorModal(){
+  $('#colorModal').modal( 'show' );
+  //console.log( 'open' );
+}
+
+function closeColorModal(){
+  $('#colorModal').modal( 'hide' );
+
+  var c = $('#color-picker').val();
+  //console.log( 'close: ', c );
+  changeColor( c );
+}
+
+$(function(){
+  //. 上の closeColorModal() があればこれは不要？
+  /*
+  $('#colorModal').on( 'hidden.bs.modal', function(){
+    var c = $('#color-picker').val();
+    //console.log( 'hidden.bs.modal: ', c );
+  });
+  */
+
+  $('#color_select').on( 'change', function(){
+    var c = $('#color_select').val();
+    if( c == 'custom' ){
+      openColorModal();
+    }else{
+      changeColor( c );
+    }
+  });
+});
+</script>
+</head>
+<body>
+
+<%- include('./navi', {}) %>
+
+<div class="container" style="margin-top: 50px;">
+  <h2>Color Picker on Modal</h2>
+
+  <a class="btn btn-primary" onClick="openColorModal();">カラーピッカー</a>
+
+  <hr/>
+
+  <div id="selected-color">色</div>
+  <select id="color_select">
+    <option style="color:#000000" value="#000000">黒</option>
+    <option style="color:#ff0000" value="#ff0000">赤</option>
+    <option style="color:#00ff00" value="#00ff00">緑</option>
+    <option style="color:#0000ff" value="#0000ff">青</option>
+    <option style="color:#000000" value="custom">カスタマイズ</option>
+  </select>
+</div>
+
+<div class="modal bd-example-modal-lg fade" id="colorModal" tabindex="-1" role="dialog" aria-labbelledby="colorModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="colorModalLabel">Color Picker</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="editmodal-body">
+        <input type="color" id="color-picker" value="#ff0000"/>
+      </div>
+      <div class="modal-footer btn-center">
+        <button type="button" class="btn" data-toggle="modal" onClick="closeColorModal();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./foot', {}) %>
